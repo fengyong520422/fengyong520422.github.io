@@ -3,874 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>大学生个人主页</title>
-    <style>
-        /* 全局样式 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            background-color: #f5f7fa;
-        }
-
-        /* 平滑滚动 */
-        html {
-            scroll-behavior: smooth;
-        }
-
-        /* 容器样式 */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* 头部样式 */
-        header {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-            color: white;
-            padding: 60px 0;
-            text-align: center;
-        }
-
-        .header-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .avatar {
-            width: 150px;
-            height: 150px;
-            border-radius: 50%;
-            object-fit: cover;
-            border: 4px solid white;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-        }
-
-        .tags {
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .tag {
-            background-color: rgba(255, 255, 255, 0.2);
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-        }
-
-        /* 导航栏样式 */
-        nav {
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: center;
-            padding: 15px 0;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 30px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 500;
-            transition: color 0.3s ease;
-        }
-
-        .nav-links a:hover {
-            color: #4facfe;
-        }
-
-        /* 主要内容样式 */
-        main {
-            padding: 60px 0;
-        }
-
-        section {
-            margin-bottom: 80px;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 40px;
-            position: relative;
-        }
-
-        .section-title h2 {
-            font-size: 2rem;
-            color: #333;
-            display: inline-block;
-            padding: 0 20px;
-            background-color: #f5f7fa;
-            position: relative;
-            z-index: 1;
-        }
-
-        .section-title::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 0;
-            width: 100%;
-            height: 1px;
-            background-color: #e0e0e0;
-            z-index: 0;
-        }
-
-        /* 卡片样式 */
-        .card {
-            background-color: white;
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            margin-bottom: 30px;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        /* 校园背景区样式 */
-        .campus-info {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .info-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .info-item i {
-            color: #4facfe;
-            font-size: 1.2rem;
-        }
-
-        /* 学习能力区样式 */
-        .skills-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .skill-item {
-            background-color: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .skill-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .skill-name {
-            font-weight: 600;
-            margin-bottom: 10px;
-        }
-
-        .skill-level {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .level-bar {
-            flex: 1;
-            height: 8px;
-            background-color: #f0f0f0;
-            border-radius: 4px;
-            overflow: hidden;
-        }
-
-        .level-fill {
-            height: 100%;
-            border-radius: 4px;
-        }
-
-        .level-fill.proficient {
-            background-color: #4caf50;
-            width: 90%;
-        }
-
-        .level-fill.mastered {
-            background-color: #4caf50;
-            width: 75%;
-        }
-
-        .level-fill.understood {
-            background-color: #ff9800;
-            width: 60%;
-        }
-
-        .courses-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-        }
-
-        .course-item {
-            background-color: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            text-align: center;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .course-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .course-name {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .course-score {
-            color: #4facfe;
-            font-weight: 600;
-        }
-
-        /* 联系方式区样式 */
-        .contact-container {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            flex-wrap: wrap;
-        }
-
-        .contact-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            padding: 15px 25px;
-            background-color: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .contact-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .contact-item a {
-            text-decoration: none;
-            color: #333;
-            transition: color 0.3s ease;
-        }
-
-        .contact-item a:hover {
-            color: #4facfe;
-        }
-
-        .contact-item i {
-            color: #4facfe;
-            font-size: 1.5rem;
-        }
-
-        /* 校园经历区样式 */
-        .experience-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .experience-item {
-            background-color: white;
-            border-radius: 8px;
-            padding: 25px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .experience-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .experience-title {
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #4facfe;
-        }
-
-        .experience-period {
-            color: #666;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-        }
-
-        /* 竞赛荣誉区样式 */
-        .awards-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
-        }
-
-        .award-item {
-            background-color: white;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .award-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .award-name {
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .award-level {
-            color: #4facfe;
-            font-size: 0.9rem;
-        }
-
-        /* 学习成果区样式 */
-        .projects-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-bottom: 40px;
-        }
-
-        .project-item {
-            background-color: white;
-            border-radius: 8px;
-            padding: 25px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .project-item:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .project-title {
-            font-weight: 600;
-            margin-bottom: 10px;
-            color: #4facfe;
-        }
-
-        .learning-plan {
-            background-color: white;
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .learning-plan:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .plan-item {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            margin-bottom: 15px;
-        }
-
-        .plan-item i {
-            color: #4facfe;
-            margin-top: 5px;
-        }
-
-        /* 个性化模块样式 */
-        .personal-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-        }
-
-        .hobbies {
-            background-color: white;
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .hobbies:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .hobbies-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .hobby-item {
-            background-color: #f0f8ff;
-            padding: 10px 20px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            color: #4facfe;
-        }
-
-        .philosophy {
-            background-color: white;
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .philosophy:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        }
-
-        .philosophy-content {
-            font-style: italic;
-            color: #666;
-            margin-top: 20px;
-            line-height: 1.8;
-        }
-
-        /* 页脚样式 */
-        footer {
-            background-color: #333;
-            color: white;
-            text-align: center;
-            padding: 30px 0;
-        }
-
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .nav-links {
-                flex-direction: column;
-                align-items: center;
-                gap: 15px;
-            }
-
-            .contact-container {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .contact-item {
-                width: 100%;
-                max-width: 300px;
-                justify-content: center;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
-            .section-title h2 {
-                font-size: 1.5rem;
-            }
-        }
-    </style>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>个人主页 | 大学生</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-    <!-- 头部区域 -->
-    <header id="home">
-        <div class="container header-content">
-            <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=college%20student%20portrait%20clear%20campus%20style%20friendly%20smile&image_size=square" alt="头像" class="avatar">
-            <h1>张明</h1>
+    <div class="container">
+        <!-- 头部区域 -->
+        <header class="header">
+            <div class="avatar-container">
+                <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=college%20student%20portrait%2C%20clean%20background%2C%20professional%2C%20youthful&image_size=square_hd" alt="头像" class="avatar">
+            </div>
+            <h1 class="name">张明</h1>
             <div class="tags">
                 <span class="tag">XX大学计算机专业大三</span>
-                <span class="tag">Python学习者</span>
+                <span class="tag">前端开发学习者</span>
                 <span class="tag">数据分析爱好者</span>
             </div>
-        </div>
-    </header>
+        </header>
 
-    <!-- 导航栏 -->
-    <nav>
-        <div class="container nav-container">
-            <ul class="nav-links">
-                <li><a href="#home">首页</a></li>
-                <li><a href="#campus">校园背景</a></li>
-                <li><a href="#skills">学习能力</a></li>
-                <li><a href="#contact">联系方式</a></li>
-                <li><a href="#experience">校园经历</a></li>
-                <li><a href="#awards">竞赛荣誉</a></li>
-                <li><a href="#projects">学习成果</a></li>
-                <li><a href="#personal">个性化</a></li>
-            </ul>
-        </div>
-    </nav>
-
-    <!-- 主要内容 -->
-    <main>
-        <!-- 校园背景区 -->
-        <section id="campus">
-            <div class="container">
-                <div class="section-title">
-                    <h2>校园背景</h2>
-                </div>
-                <div class="card">
-                    <div class="campus-info">
-                        <div class="info-item">
-                            <i class="fas fa-university"></i>
-                            <span><strong>学校+学院+专业：</strong>XX大学 计算机科学与技术学院 计算机科学与技术专业</span>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-calendar-alt"></i>
-                            <span><strong>入学/毕业时间：</strong>2022年9月 - 2026年6月</span>
-                        </div>
-                        <div class="info-item">
-                            <i class="fas fa-graduation-cap"></i>
-                            <span><strong>学历层次：</strong>本科</span>
-                        </div>
-                    </div>
-                </div>
+        <!-- 校园背景 -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-graduation-cap"></i>
+                校园背景
+            </h2>
+            <div class="campus-info">
+                <p><strong>学校 + 学院 + 专业：</strong>XX大学 计算机科学与技术学院 软件工程专业</p>
+                <p><strong>入学 / 毕业时间：</strong>2022级 | 预计2026年毕业</p>
+                <p><strong>学历层次：</strong>本科</p>
             </div>
         </section>
 
-        <!-- 学习能力区 -->
-        <section id="skills">
-            <div class="container">
-                <div class="section-title">
-                    <h2>学习能力</h2>
-                </div>
-                
-                <!-- 专业技能 -->
-                <h3 style="margin-bottom: 20px; color: #333;">专业技能</h3>
-                <div class="skills-container">
+        <!-- 核心学习能力 -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-book"></i>
+                核心学习能力
+            </h2>
+            <div class="skills">
+                <h3 class="sub-title">专业技能</h3>
+                <div class="skill-list">
                     <div class="skill-item">
-                        <div class="skill-name">Python</div>
-                        <div class="skill-level">
-                            <span>熟练</span>
-                            <div class="level-bar">
-                                <div class="level-fill proficient"></div>
-                            </div>
-                        </div>
+                        <span class="skill-name">Python</span>
+                        <span class="skill-level">熟练</span>
                     </div>
                     <div class="skill-item">
-                        <div class="skill-name">Java</div>
-                        <div class="skill-level">
-                            <span>掌握</span>
-                            <div class="level-bar">
-                                <div class="level-fill mastered"></div>
-                            </div>
-                        </div>
+                        <span class="skill-name">SQL</span>
+                        <span class="skill-level">掌握</span>
                     </div>
                     <div class="skill-item">
-                        <div class="skill-name">C++</div>
-                        <div class="skill-level">
-                            <span>掌握</span>
-                            <div class="level-bar">
-                                <div class="level-fill mastered"></div>
-                            </div>
-                        </div>
+                        <span class="skill-name">HTML/CSS</span>
+                        <span class="skill-level">基础</span>
                     </div>
                     <div class="skill-item">
-                        <div class="skill-name">前端开发</div>
-                        <div class="skill-level">
-                            <span>了解</span>
-                            <div class="level-bar">
-                                <div class="level-fill understood"></div>
-                            </div>
-                        </div>
+                        <span class="skill-name">JavaScript</span>
+                        <span class="skill-level">学习中</span>
                     </div>
                     <div class="skill-item">
-                        <div class="skill-name">数据分析</div>
-                        <div class="skill-level">
-                            <span>掌握</span>
-                            <div class="level-bar">
-                                <div class="level-fill mastered"></div>
-                            </div>
-                        </div>
+                        <span class="skill-name">Matlab</span>
+                        <span class="skill-level">了解</span>
                     </div>
                     <div class="skill-item">
-                        <div class="skill-name">数据库</div>
-                        <div class="skill-level">
-                            <span>了解</span>
-                            <div class="level-bar">
-                                <div class="level-fill understood"></div>
-                            </div>
-                        </div>
+                        <span class="skill-name">数据分析</span>
+                        <span class="skill-level">掌握</span>
                     </div>
                 </div>
+            </div>
+            <div class="courses">
+                <h3 class="sub-title">核心课程</h3>
+                <p>数据结构、操作系统、机器学习（90+）、算法设计与分析、数据库原理</p>
+            </div>
+        </section>
 
-                <!-- 核心课程 -->
-                <h3 style="margin: 40px 0 20px; color: #333;">核心课程</h3>
-                <div class="courses-container">
-                    <div class="course-item">
-                        <div class="course-name">数据结构</div>
-                        <div class="course-score">95分</div>
-                    </div>
-                    <div class="course-item">
-                        <div class="course-name">算法设计与分析</div>
-                        <div class="course-score">92分</div>
-                    </div>
-                    <div class="course-item">
-                        <div class="course-name">操作系统</div>
-                        <div class="course-score">89分</div>
-                    </div>
-                    <div class="course-item">
-                        <div class="course-name">计算机网络</div>
-                        <div class="course-score">91分</div>
-                    </div>
-                    <div class="course-item">
-                        <div class="course-name">数据库系统</div>
-                        <div class="course-score">88分</div>
-                    </div>
+        <!-- 便捷联系方式 -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-envelope"></i>
+                联系方式
+            </h2>
+            <div class="contact-info">
+                <p><strong>邮箱：</strong>zhangming@example.com</p>
+                <p><strong>GitHub：</strong><a href="#" class="link">github.com/zhangming</a></p>
+                <p><strong>微信：</strong>zhangming_2022（仅交流学习）</p>
+            </div>
+        </section>
+
+        <!-- 校园实践 / 经历 -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-briefcase"></i>
+                校园实践 / 经历
+            </h2>
+            <div class="experiences">
+                <div class="experience-item">
+                    <h3 class="experience-title">XX学院学生会宣传部部长</h3>
+                    <p class="experience-period">2023-2024</p>
+                    <p class="experience-description">负责学院活动宣传策划，组织开展多项校园文化活动</p>
+                </div>
+                <div class="experience-item">
+                    <h3 class="experience-title">班级学习委员</h3>
+                    <p class="experience-period">2022 - 至今</p>
+                    <p class="experience-description">协助老师管理班级学习事务，组织学习小组，提高班级整体成绩</p>
+                </div>
+                <div class="experience-item">
+                    <h3 class="experience-title">XX公司 产品部实习生</h3>
+                    <p class="experience-period">2024.07-2024.09</p>
+                    <p class="experience-description">负责用户调研和需求整理，参与产品迭代优化</p>
+                </div>
+                <div class="experience-item">
+                    <h3 class="experience-title">课程设计：图书管理系统</h3>
+                    <p class="experience-period">2023.12</p>
+                    <p class="experience-description">技术栈：Java+MySQL | 负责后端接口开发</p>
                 </div>
             </div>
         </section>
 
-        <!-- 联系方式区 -->
-        <section id="contact">
-            <div class="container">
-                <div class="section-title">
-                    <h2>联系方式</h2>
+        <!-- 竞赛 / 获奖成果 -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-trophy"></i>
+                竞赛 / 获奖成果
+            </h2>
+            <div class="awards">
+                <div class="award-item">
+                    <h3 class="award-title">全国大学生数学建模竞赛 省级二等奖</h3>
+                    <p class="award-period">2024</p>
                 </div>
-                <div class="contact-container">
-                    <div class="contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <a href="mailto:zhangming@example.com">zhangming@example.com</a>
-                    </div>
-                    <div class="contact-item">
-                        <i class="fab fa-github"></i>
-                        <a href="https://github.com/zhangming" target="_blank">github.com/zhangming</a>
-                    </div>
+                <div class="award-item">
+                    <h3 class="award-title">XX省大学生程序设计竞赛 参与奖</h3>
+                    <p class="award-period">2023</p>
                 </div>
-            </div>
-        </section>
-
-        <!-- 校园经历区 -->
-        <section id="experience">
-            <div class="container">
-                <div class="section-title">
-                    <h2>校园经历</h2>
+                <div class="award-item">
+                    <h3 class="award-title">校级一等奖学金</h3>
+                    <p class="award-period">2022-2023学年</p>
                 </div>
-                <div class="experience-container">
-                    <!-- 学生工作 -->
-                    <div class="experience-item">
-                        <div class="experience-title">学生会学习部副部长</div>
-                        <div class="experience-period">2023年9月 - 2024年6月</div>
-                        <p>负责组织校园学术活动，包括讲座、研讨会等，参与策划并成功举办了3场大型学术活动，提升了校园学术氛围。</p>
-                    </div>
-                    <div class="experience-item">
-                        <div class="experience-title">班级学习委员</div>
-                        <div class="experience-period">2022年9月 - 至今</div>
-                        <p>负责班级学习事务，组织学习小组，帮助同学解决学习问题，班级平均成绩在年级中排名前三。</p>
-                    </div>
-                    <!-- 校园项目 -->
-                    <div class="experience-item">
-                        <div class="experience-title">校园二手交易平台开发</div>
-                        <div class="experience-period">2023年3月 - 2023年6月</div>
-                        <p>作为项目负责人，带领团队开发了校园二手交易平台，实现了商品发布、搜索、交易等功能，获得了学校创新项目二等奖。</p>
-                    </div>
-                    <div class="experience-item">
-                        <div class="experience-title">智能校园导航系统</div>
-                        <div class="experience-period">2024年3月 - 2024年6月</div>
-                        <p>参与开发智能校园导航系统，负责前端界面设计和交互逻辑，该系统已在校园内投入使用。</p>
-                    </div>
+                <div class="award-item">
+                    <h3 class="award-title">三好学生</h3>
+                    <p class="award-period">2023</p>
+                </div>
+                <div class="award-item">
+                    <h3 class="award-title">CET-6（580+）</h3>
+                    <p class="award-period">2023.12</p>
+                </div>
+                <div class="award-item">
+                    <h3 class="award-title">计算机二级（Python）</h3>
+                    <p class="award-period">2023.09</p>
                 </div>
             </div>
         </section>
 
-        <!-- 竞赛荣誉区 -->
-        <section id="awards">
-            <div class="container">
-                <div class="section-title">
-                    <h2>竞赛荣誉</h2>
+        <!-- 学习 / 项目成果 -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-project-diagram"></i>
+                学习 / 项目成果
+            </h2>
+            <div class="projects">
+                <div class="project-item">
+                    <h3 class="project-title">个人作业：校园二手交易平台原型设计</h3>
+                    <p class="project-description">工具：Figma | 完成需求分析和页面设计</p>
                 </div>
-                <div class="awards-container">
-                    <!-- 学科竞赛奖项 -->
-                    <div class="award-item">
-                        <div class="award-name">全国大学生数学建模竞赛</div>
-                        <div class="award-level">省级二等奖</div>
-                        <div class="experience-period">2023年10月</div>
-                    </div>
-                    <div class="award-item">
-                        <div class="award-name">程序设计竞赛</div>
-                        <div class="award-level">校级一等奖</div>
-                        <div class="experience-period">2024年3月</div>
-                    </div>
-                    <!-- 奖学金 -->
-                    <div class="award-item">
-                        <div class="award-name">国家奖学金</div>
-                        <div class="award-level">一等奖</div>
-                        <div class="experience-period">2023-2024学年</div>
-                    </div>
-                    <div class="award-item">
-                        <div class="award-name">学校特等奖学金</div>
-                        <div class="award-level">特等奖</div>
-                        <div class="experience-period">2022-2023学年</div>
-                    </div>
-                    <!-- 证书 -->
-                    <div class="award-item">
-                        <div class="award-name">英语四级证书</div>
-                        <div class="award-level">580分</div>
-                        <div class="experience-period">2023年6月</div>
-                    </div>
-                    <div class="award-item">
-                        <div class="award-name">计算机二级证书</div>
-                        <div class="award-level">优秀</div>
-                        <div class="experience-period">2023年3月</div>
-                    </div>
+                <div class="project-item">
+                    <h3 class="project-title">参与XX教授课题组 机器学习方向辅助研究</h3>
+                    <p class="project-period">2024.03 - 至今</p>
+                </div>
+                <div class="project-item">
+                    <h3 class="project-title">学习计划</h3>
+                    <p class="project-description">正在学习：JavaWeb框架 | 计划：2025年考取软件设计师证书</p>
                 </div>
             </div>
         </section>
 
-        <!-- 学习成果区 -->
-        <section id="projects">
-            <div class="container">
-                <div class="section-title">
-                    <h2>学习成果</h2>
+        <!-- 个性化补充信息 -->
+        <section class="section">
+            <h2 class="section-title">
+                <i class="fas fa-user"></i>
+                个性化补充
+            </h2>
+            <div class="personal-info">
+                <div class="hobbies">
+                    <h3 class="sub-title">兴趣爱好</h3>
+                    <p>编程、阅读、校园跑、辩论赛、摄影</p>
                 </div>
-                
-                <!-- 课程设计/小项目 -->
-                <h3 style="margin-bottom: 20px; color: #333;">课程设计/小项目</h3>
-                <div class="projects-container">
-                    <div class="project-item">
-                        <div class="project-title">图书管理系统</div>
-                        <p>基于Java Swing开发的图书管理系统，实现了图书的添加、删除、查询、借阅等功能，使用MySQL数据库存储数据。</p>
-                    </div>
-                    <div class="project-item">
-                        <div class="project-title">数据分析可视化</div>
-                        <p>使用Python的pandas和matplotlib库对学生成绩数据进行分析和可视化，生成了多种图表展示分析结果。</p>
-                    </div>
-                    <div class="project-item">
-                        <div class="project-title">个人博客网站</div>
-                        <p>使用HTML、CSS和JavaScript开发的个人博客网站，支持文章发布、评论等功能。</p>
-                    </div>
+                <div class="motto">
+                    <h3 class="sub-title">个人理念</h3>
+                    <p>在学习中试错，在实践中成长</p>
+                    <p>专注专业学习，也热爱校园生活</p>
                 </div>
-
-                <!-- 学习计划 -->
-                <h3 style="margin: 40px 0 20px; color: #333;">学习计划</h3>
-                <div class="learning-plan">
-                    <div class="plan-item">
-                        <i class="fas fa-check-circle"></i>
-                        <div>
-                            <strong>短期计划（3个月）：</strong>学习机器学习基础，完成相关项目实践
-                        </div>
-                    </div>
-                    <div class="plan-item">
-                        <i class="fas fa-check-circle"></i>
-                        <div>
-                            <strong>中期计划（6个月）：</strong>准备计算机专业考研，复习相关课程
-                        </div>
-                    </div>
-                    <div class="plan-item">
-                        <i class="fas fa-check-circle"></i>
-                        <div>
-                            <strong>长期计划（1年）：</strong>完成毕业设计，准备进入心仪的企业或研究机构
-                        </div>
-                    </div>
+                <div class="links">
+                    <h3 class="sub-title">额外链接</h3>
+                    <p><a href="#" class="link">个人博客</a> | <a href="#" class="link">知乎</a> | <a href="#" class="link">GitHub仓库</a></p>
                 </div>
             </div>
         </section>
 
-        <!-- 个性化模块 -->
-        <section id="personal">
-            <div class="container">
-                <div class="section-title">
-                    <h2>个性化</h2>
-                </div>
-                <div class="personal-container">
-                    <!-- 兴趣爱好 -->
-                    <div class="hobbies">
-                        <h3 style="margin-bottom: 20px; color: #333;">兴趣爱好</h3>
-                        <div class="hobbies-list">
-                            <span class="hobby-item">阅读</span>
-                            <span class="hobby-item">跑步</span>
-                            <span class="hobby-item">编程</span>
-                            <span class="hobby-item">旅行</span>
-                            <span class="hobby-item">摄影</span>
-                        </div>
-                    </div>
-                    <!-- 个人理念 -->
-                    <div class="philosophy">
-                        <h3 style="margin-bottom: 20px; color: #333;">个人理念</h3>
-                        <div class="philosophy-content">
-                            <p>"书山有路勤为径，学海无涯苦作舟。"</p>
-                            <p>"技术改变世界，创新引领未来。"</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- 页脚 -->
-    <footer>
-        <div class="container">
-            <p>&copy; 2024 张明个人主页. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script>
-        // 导航栏滚动效果
-        window.addEventListener('scroll', function() {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 100) {
-                nav.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
-                nav.style.boxShadow = '0 4px 8px rgba(0, 0, 0, 0.1)';
-            } else {
-                nav.style.backgroundColor = 'white';
-                nav.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
-            }
-        });
-
-        // 平滑滚动到锚点
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
-    </script>
+        <!-- 页脚 -->
+        <footer class="footer">
+            <p>© 2026 个人主页 | 大学生张明</p>
+        </footer>
+    </div>
 </body>
 </html>
